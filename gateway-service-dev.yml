@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: movieRoute #Identificando la ruta del service de producto
+          uri: http://localhost:8082/ #URL donde se hará el redirect segun el predicate definido
+          predicates: #RReglas de análisis de una request
+            - Path=/movies/**
+        - id: catalogstRoute #Identificando la ruta del service de producto
+          uri: http://localhost:8084/ #URL donde se hará el redirect segun el predicate definido
+          predicates: #RReglas de análisis de una request
+            - Path=/catalogs/**
+        - id: serieRoute
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/series/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
