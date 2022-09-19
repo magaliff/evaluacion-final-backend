@@ -14,7 +14,7 @@ spring:
           predicates: #RReglas de análisis de una request
             - Path=/catalogs/**
         - id: serieRoute
-          uri: http://localhost:8084/
+          uri: http://localhost:8085/
           predicates:
             - Path=/series/**
 eureka:
