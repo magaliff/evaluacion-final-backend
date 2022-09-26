@@ -1,8 +1,18 @@
 server:
-  port: 8085
-
+  port: 8086
+  
 spring:
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: examenFinal
+      port: 27017
+      host: mongodb
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0
+    description: Series Microservice
