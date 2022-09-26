@@ -1,23 +1,42 @@
 server:
   port: 8080
-  
+
 spring:
   cloud:
     gateway:
+      default-filters:
+        - name: LoggingFilter
       routes:
-        - id: movieRoute #Identificando la ruta del service de producto
-          uri: http://localhost:8082/ #URL donde se hará el redirect segun el predicate definido
-          predicates: #RReglas de análisis de una request
+        - id: movieRoute
+          uri: lb://movie-service
+          predicates:
             - Path=/movies/**
-        - id: catalogstRoute #Identificando la ruta del service de producto
-          uri: http://localhost:8084/ #URL donde se hará el redirect segun el predicate definido
-          predicates: #RReglas de análisis de una request
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: moviesService
+                fallbackUri: forward:/fallback/movies
+        - id: catalogRoute
+          uri: lb://catalog-service
+          predicates:
             - Path=/catalogs/**
-        - id: serieRoute
-          uri: http://localhost:8085/
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogService
+                fallbackUri: forward:/fallback/catalogs
+        - id: seriesRoute
+          uri: lb://series-service
           predicates:
             - Path=/series/**
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: seriesService
+                fallbackUri: forward:/fallback/series
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0
+    description: Gateway Service
