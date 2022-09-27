@@ -14,8 +14,8 @@ services:
     ports:
       - "8761:8761"
     restart: always
-  config-service:
-    image: config-service
+  server-config:
+    image: server-config
     ports:
       - "8888:8888"
     restart: always
