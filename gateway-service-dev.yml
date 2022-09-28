@@ -14,7 +14,7 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: moviesService
+                name: movieService
                 fallbackUri: forward:/fallback/movies
         - id: catalogRoute
           uri: lb://catalog-service
@@ -26,14 +26,14 @@ spring:
                 name: catalogService
                 fallbackUri: forward:/fallback/catalogs
         - id: seriesRoute
-          uri: lb://series-service
+          uri: lb://serie-service
           predicates:
             - Path=/series/**
           filters:
             - name: CircuitBreaker
               args:
-                name: seriesService
-                fallbackUri: forward:/fallback/series
+                name: serieService
+                fallbackUri: forward:/fallback/serie
 
 info:
   app:
