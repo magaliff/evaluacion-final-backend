@@ -63,18 +63,7 @@ public class CatalogService {
         LOG.info("Buscando series por genero" + genre);
         return serieClient.getSerieByGenre(genre);
     }
-
-    @CircuitBreaker(name= "series", fallbackMethod = "seriesFallBackMethod")
-    public ResponseEntity<List<SerieDTO>> findSerieByGenre(String genre, Boolean throwError){
-        LOG.info("Buscando series por genero" + genre);
-        return serieClient.getSerieByGenreWithThrowError(genre, throwError);
-    }
-
-    //fallBack
-    public ResponseEntity<List<SerieDTO>> seriesFallBackMethod(CallNotPermittedException exception){
-        LOG.info("Circuit breaker activado");
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-    }
+    
 
 
     //guardar  pelicula con rabbitMQ
